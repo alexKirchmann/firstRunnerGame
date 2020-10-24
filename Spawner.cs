@@ -7,14 +7,16 @@ public class Spawner : MonoBehaviour {
 
     private float timeBetweenSpawn;
     public float startTimeBetweenSpawn;
-    
-    void Start() {
-    }
+    public float decreaseTime;
+    public float minTime = 0.65f;
 
     void Update() {
         if (timeBetweenSpawn <= 0) {
             Instantiate(obstacle, transform.position, Quaternion.identity);
             timeBetweenSpawn = startTimeBetweenSpawn;
+            if (startTimeBetweenSpawn > minTime) {
+                startTimeBetweenSpawn -= decreaseTime;
+            }
         }
         else {
             timeBetweenSpawn -= Time.deltaTime;
