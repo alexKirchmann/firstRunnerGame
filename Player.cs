@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
     private Vector2 targetPos;
@@ -18,6 +19,9 @@ public class Player : MonoBehaviour {
     }
 
     void Update() {
+        if (health <= 0) {
+            SceneManager.LoadScene("GameOver");
+        }
         transform.position = Vector2.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
 
         if ((Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)) && transform.position.y >  minY) {
