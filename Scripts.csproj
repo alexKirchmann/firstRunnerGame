@@ -41,11 +41,13 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="CameraShake.cs" />
+        <Compile Include="Cleaner.cs" />
         <Compile Include="MonoBehaviour1.cs" />
         <Compile Include="Obstacle.cs" />
         <Compile Include="Player.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="RepeatBackground.cs" />
+        <Compile Include="ScoreCounter.cs" />
         <Compile Include="Spawner.cs" />
         <Compile Include="SpawnPoint.cs" />
     </ItemGroup>
