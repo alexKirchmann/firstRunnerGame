@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour {
     private Vector2 targetPos;
@@ -13,22 +14,32 @@ public class Player : MonoBehaviour {
     public float minY;
 
     public short health = 3;
+    public Text healthUI;
+    public GameObject gaveOver;
+    public GameObject gameStartSound;
+    public GameObject movementSound;
     
     private void Start() {
         targetPos = new Vector2(transform.position.x, transform.position.y);
+        Instantiate(gameStartSound, transform.position, Quaternion.identity);
     }
 
     void Update() {
+        healthUI.text = health.ToString();
+
         if (health <= 0) {
-            SceneManager.LoadScene("GameOver");
+            gaveOver.SetActive(true);
+            Destroy(gameObject);
         }
         
         transform.position = Vector2.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
 
         if ((Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)) && transform.position.y >  minY) {
+            Instantiate(movementSound, transform.position, Quaternion.identity);
             targetPos.y -= yIncrement;
         }
         else if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && transform.position.y < maxY) {
+            Instantiate(movementSound, transform.position, Quaternion.identity);
             targetPos.y += yIncrement;
         }
     }
