@@ -45,6 +45,7 @@
         <Compile Include="Obstacle.cs" />
         <Compile Include="Player.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="RepeatBackground.cs" />
         <Compile Include="Spawner.cs" />
         <Compile Include="SpawnPoint.cs" />
     </ItemGroup>
