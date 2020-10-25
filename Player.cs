@@ -22,6 +22,7 @@ public class Player : MonoBehaviour {
         if (health <= 0) {
             SceneManager.LoadScene("GameOver");
         }
+        
         transform.position = Vector2.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
 
         if ((Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)) && transform.position.y >  minY) {

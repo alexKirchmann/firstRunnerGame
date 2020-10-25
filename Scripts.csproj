@@ -40,6 +40,7 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="CameraShake.cs" />
         <Compile Include="MonoBehaviour1.cs" />
         <Compile Include="Obstacle.cs" />
         <Compile Include="Player.cs" />
