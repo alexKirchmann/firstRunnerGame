@@ -43,15 +43,23 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="BonusAttack.cs" />
+        <Compile Include="BonusDefense.cs" />
+        <Compile Include="BonusHealth.cs" />
+        <Compile Include="MoonBase.cs" />
+        <Compile Include="Planet.cs" />
         <Compile Include="CameraShake.cs" />
         <Compile Include="Cleaner.cs" />
         <Compile Include="GameOver.cs" />
+        <Compile Include="GameStart.cs" />
         <Compile Include="MonoBehaviour1.cs" />
         <Compile Include="Obstacle.cs" />
         <Compile Include="Player.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="RepeatBackground.cs" />
         <Compile Include="ScoreCounter.cs" />
+        <Compile Include="SpaceShip.cs" />
+        <Compile Include="SpaceStation.cs" />
         <Compile Include="Spawner.cs" />
         <Compile Include="SpawnPoint.cs" />
     </ItemGroup>

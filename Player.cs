@@ -13,18 +13,21 @@ public class Player : MonoBehaviour {
     public float maxY;
     public float minY;
 
+    public int score;
+    public Text scoreUI;
     public short health = 3;
     public Text healthUI;
     public GameObject gaveOver;
-    public GameObject gameStartSound;
+    public GameObject backgroundMusic;
     public GameObject movementSound;
     
     private void Start() {
         targetPos = new Vector2(transform.position.x, transform.position.y);
-        Instantiate(gameStartSound, transform.position, Quaternion.identity);
+        Instantiate(backgroundMusic, transform.position, Quaternion.identity);
     }
 
     void Update() {
+        scoreUI.text = score.ToString();
         healthUI.text = health.ToString();
 
         if (health <= 0) {

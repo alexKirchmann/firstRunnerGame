@@ -8,10 +8,4 @@ public class SpawnPoint : MonoBehaviour {
     void Start() {
         Instantiate(obstacle, transform.position, Quaternion.identity);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
