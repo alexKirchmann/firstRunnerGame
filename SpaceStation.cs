@@ -15,7 +15,7 @@ public class SpaceStation : MonoBehaviour {
         if (other.CompareTag("Player")) {
             other.GetComponent<Player>().score += 3;
             Instantiate(bonus, bonus.transform.position, Quaternion.identity);
-            Destroy(gameObject, 1f);
+            Destroy(gameObject, 1f);    
         }
     }
 }

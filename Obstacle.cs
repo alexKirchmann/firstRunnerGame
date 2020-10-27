@@ -9,6 +9,7 @@ public class Obstacle : MonoBehaviour {
     public GameObject particleEffect;
     private Animator cameraAnim;
     public GameObject damageSound;
+    public GameObject destroySound;
 
     private void Start() {
         cameraAnim = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Animator>();
@@ -26,6 +27,5 @@ public class Obstacle : MonoBehaviour {
             other.GetComponent<Player>().health -= damage;
             Destroy(gameObject);
         }
-            
     }
 }

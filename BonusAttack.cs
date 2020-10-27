@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BonusAttack : MonoBehaviour {
-    public GameObject particles;
+    public GameObject attackParticles;
     public Animator buttonAnim;
     void Update() {
         if (Input.touchCount > 0) {
@@ -18,12 +18,11 @@ public class BonusAttack : MonoBehaviour {
                     buttonAnim.SetTrigger("isPressed");
                     
                     if (Input.GetTouch(0).phase == TouchPhase.Ended || Input.GetTouch(0).phase == TouchPhase.Canceled) {
-                        Instantiate(particles, transform.position, Quaternion.identity);
+                        Instantiate(attackParticles, transform.position, Quaternion.identity);
                         Destroy(gameObject);
                     }
                 }
             }
-            
         }        
     }
 }
