@@ -18,12 +18,10 @@ public class Spawner : MonoBehaviour {
             if (timeBetweenSpawnBonus <= 0) {
                 int rnd = Random.Range(0, bonusPatterns.Length);
                 Instantiate(bonusPatterns[rnd], transform.position, Quaternion.identity);
-                timeBetweenSpawnBonus = startTimeBetweenSpawn;
+                timeBetweenSpawnBonus = startTimeBetweenSpawnBonus;
                 timeBetweenSpawn = startTimeBetweenSpawn;
             }
             else {
-                timeBetweenSpawnBonus -= Time.deltaTime;
-                
                 int rnd = Random.Range(0, obstaclePatterns.Length);
                 Instantiate(obstaclePatterns[rnd], transform.position, Quaternion.identity);
                 timeBetweenSpawn = startTimeBetweenSpawn;
@@ -31,10 +29,10 @@ public class Spawner : MonoBehaviour {
                 if (startTimeBetweenSpawn > minTime) {
                     startTimeBetweenSpawn -= decreaseTime;
                 }
-                else {
-                    timeBetweenSpawn -= Time.deltaTime;
-                }
             }
+        } else {
+            timeBetweenSpawnBonus -= Time.deltaTime;
+            timeBetweenSpawn -= Time.deltaTime;
         }
     }
 }
