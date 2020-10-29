@@ -12,8 +12,16 @@ public class GameOver : MonoBehaviour {
     }
 
     void Update() {
+        #region KeyboardInput
         if (Input.GetKey(KeyCode.R)) {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
+        #endregion
+        
+        #region TouchscreenInput
+        if (Input.touchCount > 0) {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+        #endregion
     }
 }

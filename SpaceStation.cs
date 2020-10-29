@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class SpaceStation : MonoBehaviour {
     public float speed;
-    public GameObject bonus;
     private Player trigger;
     private bool isTriggered;
     
@@ -23,7 +22,7 @@ public class SpaceStation : MonoBehaviour {
             trigger = other.GetComponent<Player>();
             isTriggered = true;
             other.GetComponent<Player>().score += 3;
-            Instantiate(bonus, bonus.transform.position, Quaternion.identity);
+            GameObject.FindGameObjectWithTag("BonusShield").SetActive(true);
             Destroy(gameObject, 0.5f);    
         }
     }

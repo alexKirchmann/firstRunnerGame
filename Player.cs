@@ -13,6 +13,11 @@ public class Player : MonoBehaviour {
     public float maxY;
     public float minY;
 
+    //private bool tap; 
+    private bool isDraging = false;
+    private Vector2 touchStart, swipeDelta;
+    public float minSwipeLenght;
+    
     public int score;
     public Text scoreUI;
     public short health = 3;
@@ -27,6 +32,8 @@ public class Player : MonoBehaviour {
     }
 
     void Update() {
+        //tap = false;
+        
         scoreUI.text = score.ToString();
         healthUI.text = health.ToString();
 
@@ -37,13 +44,53 @@ public class Player : MonoBehaviour {
         
         transform.position = Vector2.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
 
-        if ((Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)) && transform.position.y >  minY) {
-            Instantiate(movementSound, transform.position, Quaternion.identity);
-            targetPos.y -= yIncrement;
+        #region KeyboardInput
+        if (Input.GetKeyDown(KeyCode.UpArrow) && transform.position.y < maxY) {
+            Move(yIncrement);
         }
-        else if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && transform.position.y < maxY) {
-            Instantiate(movementSound, transform.position, Quaternion.identity);
-            targetPos.y += yIncrement;
+        else if (Input.GetKeyDown(KeyCode.DownArrow) && transform.position.y > minY) {
+            Move(-yIncrement);
         }
+        #endregion
+
+        #region TouchscreenInput
+        if (Input.touchCount > 0) {
+            if (Input.GetTouch(0).phase == TouchPhase.Began) {
+                //tap = true;
+                isDraging = true;
+                touchStart = Input.GetTouch(0).position;
+            }
+            else if (Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Ended) {
+                isDraging = false;
+                Reset();
+            }
+        }
+        
+        swipeDelta = Vector2.zero;
+        if (isDraging) {
+            if (Input.touchCount > 0) {
+                swipeDelta = Input.GetTouch(0).position - touchStart;
+            }
+        }
+
+        if (swipeDelta.magnitude > minSwipeLenght) {
+            if (swipeDelta.y > 0 && transform.position.y < maxY) {
+                Move(yIncrement);
+            } else if (swipeDelta.y < 0 && transform.position.y > minY) {
+                Move(-yIncrement);
+            }
+            Reset();
+        }
+        #endregion
+    }
+
+    private void Move(float yIncrement) {
+        Instantiate(movementSound, transform.position, Quaternion.identity);
+        targetPos.y += yIncrement;
+    }
+    
+    private void Reset() {
+        touchStart = swipeDelta = Vector2.zero;
+        isDraging = false;
     }
 }
