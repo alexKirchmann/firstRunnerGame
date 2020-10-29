@@ -43,10 +43,9 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="AttackScript.cs" />
         <Compile Include="BonusAttack.cs" />
-        <Compile Include="BonusDefense.cs" />
         <Compile Include="BonusHealth.cs" />
+        <Compile Include="BonusShield.cs" />
         <Compile Include="Engine.cs" />
         <Compile Include="MoonBase.cs" />
         <Compile Include="Planet.cs" />

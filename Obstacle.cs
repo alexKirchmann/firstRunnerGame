@@ -19,12 +19,20 @@ public class Obstacle : MonoBehaviour {
         transform.Translate(Vector2.left * (speed * Time.deltaTime));
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
-        if (other.CompareTag("Player")) {
+    void OnCollisionEnter2D(Collision2D other) {
+        if (other.gameObject.CompareTag("Player")) {
             Instantiate(damageSound, transform.position, Quaternion.identity);
             cameraAnim.SetTrigger("collision");
             Instantiate(particleEffect, transform.position, Quaternion.identity);
-            other.GetComponent<Player>().health -= damage;
+            other.gameObject.GetComponent<Player>().health -= damage;
+            Destroy(gameObject);
+        }
+    }
+    
+    private void OnParticleCollision(GameObject other) {
+        if (other.CompareTag("Attack")) {
+            Instantiate(destroySound, transform.position, Quaternion.identity);
+            Instantiate(particleEffect, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
     }
