@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class MoonBase : MonoBehaviour {
     public float speed;
     public GameObject bonusButton;
+
     private GameObject canvas;
     private Player trigger;
     private bool isTriggered;
@@ -29,9 +30,11 @@ public class MoonBase : MonoBehaviour {
             trigger = other.GetComponent<Player>();
             isTriggered = true;
             other.GetComponent<Player>().score += 5;
-            var button = Instantiate(bonusButton, bonusButton.transform.position, Quaternion.identity);
-            button.transform.SetParent(canvas.transform, false);
-            Destroy(gameObject, 0.5f);
+            if (GameObject.FindGameObjectWithTag("BonusAttack") == null){
+                var button = Instantiate(bonusButton, bonusButton.transform.position, Quaternion.identity);
+                button.transform.SetParent(canvas.transform, false);
+            }
+            Destroy(gameObject, 0.25f);
         }
     }
 }

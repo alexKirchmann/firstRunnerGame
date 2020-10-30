@@ -30,7 +30,7 @@ public class Obstacle : MonoBehaviour {
     }
     
     private void OnParticleCollision(GameObject other) {
-        if (other.CompareTag("Attack")) {
+        if (other.CompareTag("Attack") || other.CompareTag("Shield")) {
             Instantiate(destroySound, transform.position, Quaternion.identity);
             Instantiate(particleEffect, transform.position, Quaternion.identity);
             Destroy(gameObject);

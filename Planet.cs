@@ -25,7 +25,7 @@ public class Planet : MonoBehaviour {
             isTriggered = true;
             other.GetComponent<Player>().score += 10;
             Instantiate(bonus, bonus.transform.position, Quaternion.identity);
-            Destroy(gameObject, 0.5f);
+            Destroy(gameObject, 0.25f);
         }
     }
 }

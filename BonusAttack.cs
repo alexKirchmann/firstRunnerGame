@@ -6,9 +6,11 @@ using UnityEngine;
 public class BonusAttack : MonoBehaviour {
     public GameObject attackParticles;
     private Animator buttonAnim;
-
+    private GameObject player;
+    
     private void Start() {
         buttonAnim = gameObject.GetComponent<Animator>();
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     void Update() {
@@ -35,7 +37,7 @@ public class BonusAttack : MonoBehaviour {
                     buttonAnim.SetTrigger("isPressed");
                     
                     if (Input.GetTouch(0).phase == TouchPhase.Ended || Input.GetTouch(0).phase == TouchPhase.Canceled) {
-                        Instantiate(attackParticles, attackParticles.transform.position, attackParticles.transform.rotation);
+                        Instantiate(attackParticles, new Vector2(attackParticles.transform.position.x, attackParticles.transform.position.y + player.transform.position.y), attackParticles.transform.rotation);
                         gameObject.SetActive(false);
                     }
                 }
@@ -45,5 +47,11 @@ public class BonusAttack : MonoBehaviour {
             }
         }
         #endregion
+    }
+
+    private void OnCollisionEnter2D(Collision2D other) {
+        if (other.gameObject.CompareTag("BonusAttack")) {
+            Destroy(other.gameObject);
+        }
     }
 }

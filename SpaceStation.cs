@@ -5,9 +5,16 @@ using UnityEngine;
 
 public class SpaceStation : MonoBehaviour {
     public float speed;
+    public GameObject bonusButton;
+    
+    private GameObject canvas;
     private Player trigger;
     private bool isTriggered;
-    
+
+    void Start() {
+        canvas = GameObject.FindGameObjectWithTag("Canvas");
+    }
+
     void Update() {
         transform.Translate(Vector2.left * (speed * Time.deltaTime));
 
@@ -22,8 +29,11 @@ public class SpaceStation : MonoBehaviour {
             trigger = other.GetComponent<Player>();
             isTriggered = true;
             other.GetComponent<Player>().score += 3;
-            GameObject.FindGameObjectWithTag("BonusShield").SetActive(true);
-            Destroy(gameObject, 0.5f);    
+            if (GameObject.FindGameObjectWithTag("BonusShield") == null){
+                var button = Instantiate(bonusButton, bonusButton.transform.position, Quaternion.identity);
+                button.transform.SetParent(canvas.transform, false);
+            }
+            Destroy(gameObject, 0.25f);    
         }
     }
 }

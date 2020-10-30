@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Spawner : MonoBehaviour {
     public GameObject[] obstaclePatterns;
@@ -13,8 +15,15 @@ public class Spawner : MonoBehaviour {
     public float decreaseTime;
     public float minTime = 0.65f;
 
+    private void Start() {
+        timeBetweenSpawn = timeBetweenSpawn;
+        timeBetweenSpawnBonus = timeBetweenSpawnBonus;
+    }
+
     void Update() {
         if (timeBetweenSpawn <= 0) {
+            Debug.Log(timeBetweenSpawn);
+            Debug.Log(timeBetweenSpawnBonus);
             if (timeBetweenSpawnBonus <= 0) {
                 int rnd = Random.Range(0, bonusPatterns.Length);
                 Instantiate(bonusPatterns[rnd], transform.position, Quaternion.identity);

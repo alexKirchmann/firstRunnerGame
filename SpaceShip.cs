@@ -27,7 +27,7 @@ public class SpaceShip : MonoBehaviour {
             trigger = other.GetComponent<Player>();
             isTriggered = true;
             other.GetComponent<Player>().score += 1;
-            Destroy(gameObject, 0.5f);
+            Destroy(gameObject, 0.25f);
         }
     }
 }
