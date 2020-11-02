@@ -22,8 +22,6 @@ public class Spawner : MonoBehaviour {
 
     void Update() {
         if (timeBetweenSpawn <= 0) {
-            Debug.Log(timeBetweenSpawn);
-            Debug.Log(timeBetweenSpawnBonus);
             if (timeBetweenSpawnBonus <= 0) {
                 int rnd = Random.Range(0, bonusPatterns.Length);
                 Instantiate(bonusPatterns[rnd], transform.position, Quaternion.identity);

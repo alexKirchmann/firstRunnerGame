@@ -17,7 +17,11 @@ public class SpaceShip : MonoBehaviour {
         transform.Translate(Vector2.left * (speed * Time.deltaTime));
 
         if (isTriggered) {
-            transform.position = new Vector2(trigger.transform.position.x + 1.5f, transform.position.y);
+            transform.position = new Vector3(trigger.transform.position.x + 1.5f, transform.position.y, -1);
+        }
+        
+        if (gameObject.transform.position.x < -10) {
+            GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>().SetBool("isEating", false);
         }
     }
 
@@ -26,8 +30,15 @@ public class SpaceShip : MonoBehaviour {
             speed = 0;
             trigger = other.GetComponent<Player>();
             isTriggered = true;
+            GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>().SetBool("isEating", true);
             other.GetComponent<Player>().score += 1;
-            Destroy(gameObject, 0.25f);
+            StartCoroutine(destroy());
         }
+    }
+
+    IEnumerator destroy () {
+        yield return new WaitForSeconds(0.22f);
+        Destroy(gameObject);
+        
     }
 }

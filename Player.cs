@@ -13,8 +13,7 @@ public class Player : MonoBehaviour {
     public float maxY;
     public float minY;
 
-    //private bool tap; 
-    private bool isDraging = false;
+    private bool isDraging;
     private Vector2 touchStart, swipeDelta;
     public float minSwipeLenght;
     
@@ -32,8 +31,6 @@ public class Player : MonoBehaviour {
     }
 
     void Update() {
-        //tap = false;
-        
         scoreUI.text = score.ToString();
         healthUI.text = health.ToString();
 
@@ -56,7 +53,6 @@ public class Player : MonoBehaviour {
         #region TouchscreenInput
         if (Input.touchCount > 0) {
             if (Input.GetTouch(0).phase == TouchPhase.Began) {
-                //tap = true;
                 isDraging = true;
                 touchStart = Input.GetTouch(0).position;
             }
@@ -92,5 +88,16 @@ public class Player : MonoBehaviour {
     private void Reset() {
         touchStart = swipeDelta = Vector2.zero;
         isDraging = false;
+    }
+
+    private void OnTriggerExit2D (Collider2D other) {
+        if (other.CompareTag("BonusObject")) {
+            StartCoroutine(resetAnimation());
+        }
+    }
+
+    IEnumerator resetAnimation() {
+        yield return new WaitForSeconds(0.30f);
+        GetComponent<Animator>().SetBool("isEating", false);
     }
 }
