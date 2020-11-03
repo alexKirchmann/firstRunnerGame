@@ -18,6 +18,7 @@ public class BonusAttack : MonoBehaviour {
         }
         
         if (Input.GetKeyUp(KeyCode.A)) {
+            player.GetComponent<Animator>().SetBool("isAttacking", true);
             Instantiate(attackParticles, new Vector2(attackParticles.transform.position.x, player.transform.position.y), attackParticles.transform.rotation);
             Destroy(gameObject);
         }
@@ -35,8 +36,9 @@ public class BonusAttack : MonoBehaviour {
                     buttonAnim.SetTrigger("isPressed");
                     
                     if (Input.GetTouch(0).phase == TouchPhase.Ended || Input.GetTouch(0).phase == TouchPhase.Canceled) {
+                        player.GetComponent<Animator>().SetBool("isAttacking", true);
                         Instantiate(attackParticles, new Vector2(attackParticles.transform.position.x, player.transform.position.y), attackParticles.transform.rotation);
-                        gameObject.SetActive(false);
+                        Destroy(gameObject);
                     }
                 }
             }

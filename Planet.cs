@@ -6,8 +6,6 @@ public class Planet : SpeedUpObject {
     public GameObject bonus;
     private Player trigger;
     private bool isTriggered;
-    private Player player;
-
 
     private void Start() {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
@@ -23,10 +21,6 @@ public class Planet : SpeedUpObject {
         else if (isTriggered) {
             transform.position = new Vector3(trigger.transform.position.x + 1.5f, transform.position.y, -1);
         }
-        
-        if (gameObject.transform.position.x < -10) {
-            GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>().SetBool("isEating", false);
-        }
     }
 
     private void OnTriggerEnter2D (Collider2D other) {
@@ -34,8 +28,8 @@ public class Planet : SpeedUpObject {
             speed = 0;
             trigger = other.GetComponent<Player>();
             isTriggered = true;
-            GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>().SetBool("isEating", true);
-            other.GetComponent<Player>().score += 10;
+            other.GetComponent<Animator>().SetBool("isEating", true);
+            other.GetComponent<Player>().score += 5;
             Instantiate(bonus, bonus.transform.position, Quaternion.identity);
             StartCoroutine(destroy());
         }

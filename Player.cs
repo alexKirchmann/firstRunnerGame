@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour {
     private Vector2 targetPos;
     private bool isAlive { get; set; }
+    private bool isResetting { get; set; }
     
     public float yIncrement;
     public float speed;
@@ -78,6 +80,10 @@ public class Player : MonoBehaviour {
             Reset();
         }
         #endregion
+        
+        if (GetComponent<Animator>().GetBool("isAttacking") && !isResetting) {
+            StartCoroutine(resetAnimation(0.4f, "isAttacking"));
+        }
     }
 
     private void Move(float yIncrement) {
@@ -92,12 +98,14 @@ public class Player : MonoBehaviour {
 
     private void OnTriggerExit2D (Collider2D other) {
         if (other.CompareTag("BonusObject")) {
-            StartCoroutine(resetAnimation());
+            StartCoroutine(resetAnimation(0.30f, "isEating"));
         }
     }
 
-    IEnumerator resetAnimation() {
-        yield return new WaitForSeconds(0.30f);
-        GetComponent<Animator>().SetBool("isEating", false);
+    IEnumerator resetAnimation(float sec, String trigger) {
+        isResetting = true;
+        yield return new WaitForSeconds(sec);
+        GetComponent<Animator>().SetBool(trigger, false);
+        isResetting = false;
     }
 }

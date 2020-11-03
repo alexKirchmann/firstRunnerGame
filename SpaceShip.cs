@@ -21,10 +21,6 @@ public class SpaceShip : SpeedUpObject {
         else if (isTriggered) {
             transform.position = new Vector3(trigger.transform.position.x + 1.5f, transform.position.y, -1);
         }
-        
-        if (gameObject.transform.position.x < -10) {
-            GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>().SetBool("isEating", false);
-        }
     }
 
     private void OnTriggerEnter2D (Collider2D other) {
@@ -32,7 +28,7 @@ public class SpaceShip : SpeedUpObject {
             speed = 0;
             trigger = other.GetComponent<Player>();
             isTriggered = true;
-            GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>().SetBool("isEating", true);
+            other.GetComponent<Animator>().SetBool("isEating", true);
             other.GetComponent<Player>().score += 1;
             StartCoroutine(destroy());
         }
