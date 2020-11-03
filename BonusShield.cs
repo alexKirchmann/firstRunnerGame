@@ -1,4 +1,5 @@
 ﻿
+using System;
 using UnityEngine;
 
 public class BonusShield : MonoBehaviour {
@@ -12,6 +13,10 @@ public class BonusShield : MonoBehaviour {
     }
 
     void Update() {
+        if (!player.GetComponent<Player>().isAlive) {
+            Destroy(gameObject);
+        }
+        
         #region KeyboardInput
         if (Input.GetKeyDown(KeyCode.S)) {
             buttonAnim.SetTrigger("isPressed");
@@ -30,12 +35,13 @@ public class BonusShield : MonoBehaviour {
             Vector2 touchPosition2D = new Vector2(touchPosition.x, touchPosition.y);
             RaycastHit2D hit = Physics2D.Raycast(touchPosition2D, Vector2.zero);
 
-            if (hit.collider != null) {
+            if (!hit.collider.Equals(null)) {
                 if (hit.collider.gameObject.CompareTag("BonusShield")) {
                     buttonAnim.SetTrigger("isPressed");
 
                     if (Input.GetTouch(0).phase == TouchPhase.Ended || Input.GetTouch(0).phase == TouchPhase.Canceled) {
-                        var shld = Instantiate(shieldParticles, shieldParticles.transform.position, shieldParticles.transform.rotation);
+                        var shld = Instantiate(shieldParticles, shieldParticles.transform.position,
+                            shieldParticles.transform.rotation);
                         shld.transform.SetParent(player.transform, false);
                         Destroy(gameObject);
                     }

@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Planet : SpeedUpObject {
+    public GameObject scoreUI;
     public GameObject bonus;
+
+    private GameObject canvas;
     private Player trigger;
     private bool isTriggered;
 
     private void Start() {
+        canvas = GameObject.FindGameObjectWithTag("Canvas");
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 
@@ -19,7 +24,7 @@ public class Planet : SpeedUpObject {
             SpeedUp();
         }
         else if (isTriggered) {
-            transform.position = new Vector3(trigger.transform.position.x + 1.5f, transform.position.y, -1);
+            transform.position = new Vector3(player.transform.position.x + 1.5f, player.transform.position.y, -1);
         }
     }
 
@@ -30,6 +35,10 @@ public class Planet : SpeedUpObject {
             isTriggered = true;
             other.GetComponent<Animator>().SetBool("isEating", true);
             other.GetComponent<Player>().score += 5;
+            scoreUI.GetComponent<Text>().text = "+5";
+            var sUI = Instantiate(scoreUI, scoreUI.transform.position, Quaternion.identity);
+            sUI.transform.SetParent(canvas.transform, false);
+
             Instantiate(bonus, bonus.transform.position, Quaternion.identity);
             StartCoroutine(destroy());
         }

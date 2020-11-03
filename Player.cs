@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour {
     private Vector2 targetPos;
-    private bool isAlive { get; set; }
-    private bool isResetting { get; set; }
+    public bool isAlive { get; set; }
+    private bool isResetting;
     
     public float yIncrement;
     public float speed;
@@ -39,6 +39,7 @@ public class Player : MonoBehaviour {
             gaveOver.SetActive(true);
             isAlive = false;
             Destroy(gameObject);
+            SaveScore();
         }
         
         transform.position = Vector2.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
@@ -107,5 +108,17 @@ public class Player : MonoBehaviour {
         yield return new WaitForSeconds(sec);
         GetComponent<Animator>().SetBool(trigger, false);
         isResetting = false;
+    }
+
+    void SaveScore() {
+        String higherThan = null;
+        for (int i = 10; i >= 1; i--) {
+            String key = "highscore_" + i;
+            if (score > PlayerPrefs.GetInt(key)) {
+                higherThan = key;
+            } 
+        }
+        if (!higherThan.Equals(null))
+            PlayerPrefs.SetInt(higherThan, score);
     }
 }

@@ -1,4 +1,5 @@
 ﻿
+using System;
 using UnityEngine;
 
 public class BonusAttack : MonoBehaviour {
@@ -12,6 +13,10 @@ public class BonusAttack : MonoBehaviour {
     }
 
     void Update() {
+        if (!player.GetComponent<Player>().isAlive) {
+            Destroy(gameObject);
+        }
+        
         #region KeyboardInput
         if (Input.GetKeyDown(KeyCode.A)) {
             buttonAnim.SetTrigger("isPressed");
@@ -19,7 +24,8 @@ public class BonusAttack : MonoBehaviour {
         
         if (Input.GetKeyUp(KeyCode.A)) {
             player.GetComponent<Animator>().SetBool("isAttacking", true);
-            Instantiate(attackParticles, new Vector2(attackParticles.transform.position.x, player.transform.position.y), attackParticles.transform.rotation);
+            Instantiate(attackParticles, new Vector2(attackParticles.transform.position.x, player.transform.position.y), 
+                attackParticles.transform.rotation);
             Destroy(gameObject);
         }
         #endregion
@@ -30,14 +36,15 @@ public class BonusAttack : MonoBehaviour {
             Vector2 touchPosition2D = new Vector2(touchPosition.x, touchPosition.y);
             RaycastHit2D hit = Physics2D.Raycast(touchPosition2D, Vector2.zero);
 
-            if (hit.collider != null) {
+            if (!hit.collider.Equals(null)) {
 
                 if (hit.collider.gameObject.CompareTag("BonusAttack")) {
                     buttonAnim.SetTrigger("isPressed");
-                    
+
                     if (Input.GetTouch(0).phase == TouchPhase.Ended || Input.GetTouch(0).phase == TouchPhase.Canceled) {
                         player.GetComponent<Animator>().SetBool("isAttacking", true);
-                        Instantiate(attackParticles, new Vector2(attackParticles.transform.position.x, player.transform.position.y), attackParticles.transform.rotation);
+                        Instantiate(attackParticles, new Vector2(attackParticles.transform.position.x, player.transform.position.y),
+                            attackParticles.transform.rotation);
                         Destroy(gameObject);
                     }
                 }

@@ -6,7 +6,7 @@ public class Spawner : MonoBehaviour {
     public GameObject[] bonusPatterns;
 
     private float timeBetweenSpawn = 1;
-    private float timeBetweenSpawnBonus = 10;
+    private float timeBetweenSpawnBonus = 4;
     public float startTimeBetweenSpawn;
     public float startTimeBetweenSpawnBonus;
     public float decreaseTime;
