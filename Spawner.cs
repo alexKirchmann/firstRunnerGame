@@ -1,24 +1,16 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class Spawner : MonoBehaviour {
     public GameObject[] obstaclePatterns;
     public GameObject[] bonusPatterns;
 
-    private float timeBetweenSpawn;
-    private float timeBetweenSpawnBonus;
+    private float timeBetweenSpawn = 1;
+    private float timeBetweenSpawnBonus = 10;
     public float startTimeBetweenSpawn;
     public float startTimeBetweenSpawnBonus;
     public float decreaseTime;
     public float minTime = 0.65f;
-
-    private void Start() {
-        timeBetweenSpawn = timeBetweenSpawn;
-        timeBetweenSpawnBonus = timeBetweenSpawnBonus;
-    }
 
     void Update() {
         if (timeBetweenSpawn <= 0) {

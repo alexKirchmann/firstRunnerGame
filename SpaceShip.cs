@@ -1,22 +1,24 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 
-public class SpaceShip : MonoBehaviour {
-    public float speed;
+public class SpaceShip : SpeedUpObject {
     public GameObject engineParticles;
     private Player trigger;
     private bool isTriggered;
-    
+
     private void Start() {
         Instantiate(engineParticles, transform.position, Quaternion.identity);
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
     
     void Update() {
         transform.Translate(Vector2.left * (speed * Time.deltaTime));
 
-        if (isTriggered) {
+        if (!isTriggered) {
+            currentScore = player.score - (scoreNeedForSpeed * speedInc);
+            SpeedUp();
+        }
+        else if (isTriggered) {
             transform.position = new Vector3(trigger.transform.position.x + 1.5f, transform.position.y, -1);
         }
         

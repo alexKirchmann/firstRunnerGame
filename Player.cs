@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour {
     private Vector2 targetPos;
-
+    private bool isAlive { get; set; }
+    
     public float yIncrement;
     public float speed;
     public float maxY;
@@ -28,6 +26,7 @@ public class Player : MonoBehaviour {
     private void Start() {
         targetPos = new Vector2(transform.position.x, transform.position.y);
         Instantiate(backgroundMusic, transform.position, Quaternion.identity);
+        isAlive = true;
     }
 
     void Update() {
@@ -36,6 +35,7 @@ public class Player : MonoBehaviour {
 
         if (health <= 0) {
             gaveOver.SetActive(true);
+            isAlive = false;
             Destroy(gameObject);
         }
         

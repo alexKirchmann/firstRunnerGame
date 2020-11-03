@@ -1,17 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class RepeatBackground : MonoBehaviour {
-    public float speed;
+public class RepeatBackground : SpeedUpObject {
     public float startX;
     public float endX;
-    
-    void Update()
-    {
-        transform.Translate(Vector2.left * (speed * Time.deltaTime));
 
+    private void Start() {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+    }
+
+    void Update() {
+        transform.Translate(Vector2.left * (speed * Time.deltaTime));
+        
         if (transform.position.x <= endX)
             transform.position = new Vector3(startX, transform.position.y, transform.position.z);
+        
+        currentScore = player.score - (scoreNeedForSpeed * speedInc);
+        SpeedUp();
     }
 }

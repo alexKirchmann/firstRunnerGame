@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
 
 public class BonusAttack : MonoBehaviour {
@@ -20,7 +18,7 @@ public class BonusAttack : MonoBehaviour {
         }
         
         if (Input.GetKeyUp(KeyCode.A)) {
-            Instantiate(attackParticles, attackParticles.transform.position, attackParticles.transform.rotation);
+            Instantiate(attackParticles, new Vector2(attackParticles.transform.position.x, player.transform.position.y), attackParticles.transform.rotation);
             Destroy(gameObject);
         }
         #endregion
@@ -37,7 +35,7 @@ public class BonusAttack : MonoBehaviour {
                     buttonAnim.SetTrigger("isPressed");
                     
                     if (Input.GetTouch(0).phase == TouchPhase.Ended || Input.GetTouch(0).phase == TouchPhase.Canceled) {
-                        Instantiate(attackParticles, new Vector2(attackParticles.transform.position.x, attackParticles.transform.position.y + player.transform.position.y), attackParticles.transform.rotation);
+                        Instantiate(attackParticles, new Vector2(attackParticles.transform.position.x, player.transform.position.y), attackParticles.transform.rotation);
                         gameObject.SetActive(false);
                     }
                 }

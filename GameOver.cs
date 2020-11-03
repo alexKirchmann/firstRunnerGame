@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameOver : MonoBehaviour {
@@ -13,7 +10,7 @@ public class GameOver : MonoBehaviour {
 
     void Update() {
         #region KeyboardInput
-        if (Input.GetKey(KeyCode.R)) {
+        if (Input.anyKey) {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
         #endregion

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class MoonBase : MonoBehaviour {
-    public float speed;
+public class MoonBase : SpeedUpObject {
     public GameObject bonusButton;
 
     private GameObject canvas;
@@ -14,12 +10,17 @@ public class MoonBase : MonoBehaviour {
 
     private void Start() {
         canvas = GameObject.FindGameObjectWithTag("Canvas");
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 
     void Update() {
         transform.Translate(Vector2.left * (speed * Time.deltaTime));
-        
-        if (isTriggered) {
+
+        if (!isTriggered) {
+            currentScore = player.score - (scoreNeedForSpeed * speedInc);
+            SpeedUp();
+        }
+        else if (isTriggered) {
             transform.position = new Vector3(trigger.transform.position.x + 1.5f, transform.position.y, -1);
         }
 

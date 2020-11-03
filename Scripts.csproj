@@ -45,6 +45,7 @@
     <ItemGroup>
         <Compile Include="BonusAttack.cs" />
         <Compile Include="BonusHealth.cs" />
+        <Compile Include="SpeedUpObject.cs" />
         <Compile Include="BonusShield.cs" />
         <Compile Include="Engine.cs" />
         <Compile Include="MoonBase.cs" />
@@ -53,7 +54,6 @@
         <Compile Include="Cleaner.cs" />
         <Compile Include="GameOver.cs" />
         <Compile Include="GameStart.cs" />
-        <Compile Include="MonoBehaviour1.cs" />
         <Compile Include="Obstacle.cs" />
         <Compile Include="Player.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />

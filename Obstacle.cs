@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Obstacle : MonoBehaviour {
-    public float speed;
+public class Obstacle : SpeedUpObject {
     public short damage = 1;
     public GameObject particleEffect;
     private Animator cameraAnim;
@@ -13,10 +9,14 @@ public class Obstacle : MonoBehaviour {
 
     private void Start() {
         cameraAnim = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Animator>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 
     void Update() {
         transform.Translate(Vector2.left * (speed * Time.deltaTime));
+        
+        currentScore = player.score - (scoreNeedForSpeed * speedInc);
+        SpeedUp();
     }
 
     void OnCollisionEnter2D(Collision2D other) {
@@ -28,7 +28,7 @@ public class Obstacle : MonoBehaviour {
             Destroy(gameObject);
         }
     }
-    
+
     private void OnParticleCollision(GameObject other) {
         if (other.CompareTag("Attack") || other.CompareTag("Shield")) {
             Instantiate(destroySound, transform.position, Quaternion.identity);

@@ -1,19 +1,26 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Random = System.Random;
 
-public class Planet : MonoBehaviour {
-    public float speed;
+public class Planet : SpeedUpObject {
     public GameObject bonus;
     private Player trigger;
     private bool isTriggered;
-    
+    private Player player;
+
+
+    private void Start() {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+    }
+
     void Update() {
         transform.Translate(Vector2.left * (speed * Time.deltaTime));
-
-        if (isTriggered) {
+       
+        if (!isTriggered) {
+            currentScore = player.score - (scoreNeedForSpeed * speedInc);
+            SpeedUp();
+        }
+        else if (isTriggered) {
             transform.position = new Vector3(trigger.transform.position.x + 1.5f, transform.position.y, -1);
         }
         
