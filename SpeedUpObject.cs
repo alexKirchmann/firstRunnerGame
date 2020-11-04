@@ -10,7 +10,7 @@ public abstract class SpeedUpObject : MonoBehaviour {
 
     public void SpeedUp() {
         if (CurrentScore >= ScoreNeedForSpeed) {
-            speed += 3;
+            speed += 2;
             SpeedInc++;
         }
     }

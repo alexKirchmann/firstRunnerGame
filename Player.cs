@@ -24,6 +24,7 @@ public class Player : MonoBehaviour {
     public Text healthUI;
     public GameObject gameOver;
     public GameObject backgroundMusic;
+    public GameObject deathSound;
     public GameObject movementSound;
     
     private void Start() {
@@ -40,6 +41,7 @@ public class Player : MonoBehaviour {
             gameOver.SetActive(true);
             isAlive = false;
             Destroy(gameObject);
+            Instantiate(deathSound, transform.position, Quaternion.identity);
             SaveScore();
         }
         

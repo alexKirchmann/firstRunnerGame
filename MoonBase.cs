@@ -8,7 +8,6 @@ public class MoonBase : SpeedUpObject {
     public GameObject screamSound;
 
     private GameObject _canvas;
-    private Player _trigger;
     private bool _isTriggered;
 
     private void Start() {
@@ -20,7 +19,7 @@ public class MoonBase : SpeedUpObject {
         transform.Translate(Vector2.left * (speed * Time.deltaTime));
 
         if (!_isTriggered) {
-            CurrentScore = Player.score - (ScoreNeedForSpeed * SpeedInc);
+            CurrentScore = Player.score - ScoreNeedForSpeed * SpeedInc;
             SpeedUp();
         }
         else if (_isTriggered) {
@@ -32,7 +31,6 @@ public class MoonBase : SpeedUpObject {
         if (other.CompareTag("Player")) {
             speed = 0;
             Instantiate(screamSound, transform.position, Quaternion.identity);
-            _trigger = other.GetComponent<Player>();
             _isTriggered = true;
             other.GetComponent<Animator>().SetBool("isEating", true);
             

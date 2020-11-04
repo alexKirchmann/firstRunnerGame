@@ -11,7 +11,7 @@ public class Spawner : MonoBehaviour {
     public float startTimeBetweenSpawn;
     public float startTimeBetweenSpawnBonus;
     public float decreaseTime;
-    public float minTime = 0.65f;
+    public float minTime;
 
     void Update() {
         if (_timeBetweenSpawn <= 0) {
