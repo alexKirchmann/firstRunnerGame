@@ -4,9 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour {
-    private Vector2 targetPos;
     public bool isAlive { get; set; }
-    private bool isResetting;
+    
+    private Vector2 _targetPos;
+    private bool _isResetting;
     
     public float yIncrement;
     public float speed;
@@ -21,12 +22,12 @@ public class Player : MonoBehaviour {
     public Text scoreUI;
     public short health = 3;
     public Text healthUI;
-    public GameObject gaveOver;
+    public GameObject gameOver;
     public GameObject backgroundMusic;
     public GameObject movementSound;
     
     private void Start() {
-        targetPos = new Vector2(transform.position.x, transform.position.y);
+        _targetPos = new Vector2(transform.position.x, transform.position.y);
         Instantiate(backgroundMusic, transform.position, Quaternion.identity);
         isAlive = true;
     }
@@ -36,13 +37,13 @@ public class Player : MonoBehaviour {
         healthUI.text = health.ToString();
 
         if (health <= 0) {
-            gaveOver.SetActive(true);
+            gameOver.SetActive(true);
             isAlive = false;
             Destroy(gameObject);
             SaveScore();
         }
         
-        transform.position = Vector2.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, _targetPos, speed * Time.deltaTime);
 
         #region KeyboardInput
         if (Input.GetKeyDown(KeyCode.UpArrow) && transform.position.y < maxY) {
@@ -82,14 +83,14 @@ public class Player : MonoBehaviour {
         }
         #endregion
         
-        if (GetComponent<Animator>().GetBool("isAttacking") && !isResetting) {
+        if (GetComponent<Animator>().GetBool("isAttacking") && !_isResetting) {
             StartCoroutine(resetAnimation(0.4f, "isAttacking"));
         }
     }
 
     private void Move(float yIncrement) {
         Instantiate(movementSound, transform.position, Quaternion.identity);
-        targetPos.y += yIncrement;
+        _targetPos.y += yIncrement;
     }
     
     private void Reset() {
@@ -103,22 +104,34 @@ public class Player : MonoBehaviour {
         }
     }
 
-    IEnumerator resetAnimation(float sec, String trigger) {
-        isResetting = true;
+    IEnumerator resetAnimation(float sec, string trigger) {
+        _isResetting = true;
         yield return new WaitForSeconds(sec);
         GetComponent<Animator>().SetBool(trigger, false);
-        isResetting = false;
+        _isResetting = false;
     }
 
-    void SaveScore() {
-        String higherThan = null;
+    private void SaveScore() {
+        int bestPlace = 0;
+        string baseKey = "highscore_";
+        
         for (int i = 10; i >= 1; i--) {
-            String key = "highscore_" + i;
-            if (score > PlayerPrefs.GetInt(key)) {
-                higherThan = key;
+             string localKey = baseKey + i;
+            
+            if (score > PlayerPrefs.GetInt(localKey)) {
+                bestPlace = i;
             } 
         }
-        if (!higherThan.Equals(null))
-            PlayerPrefs.SetInt(higherThan, score);
+
+        
+        if (bestPlace != 0) {
+            for (int i = 10; i > bestPlace; i--) {
+                int prev = PlayerPrefs.GetInt(baseKey + (i-1));
+                PlayerPrefs.SetInt(baseKey + i, prev);
+                Debug.Log(baseKey + (i - 1));
+            }
+
+            PlayerPrefs.SetInt(baseKey + bestPlace, score);
+        }
     }
 }

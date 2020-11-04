@@ -4,28 +4,28 @@ using UnityEngine;
 
 public class BonusShield : MonoBehaviour {
     public GameObject shieldParticles;
-    private Animator buttonAnim;
-    private GameObject player;
+    public GameObject shieldSound;
+    
+    private Animator _buttonAnim;
+    private GameObject _player;
 
     private void Start() {
-        buttonAnim = gameObject.GetComponent<Animator>();
-        player = GameObject.FindGameObjectWithTag("Player");
+        _buttonAnim = gameObject.GetComponent<Animator>();
+        _player = GameObject.FindGameObjectWithTag("Player");
     }
 
     void Update() {
-        if (!player.GetComponent<Player>().isAlive) {
+        if (!_player.GetComponent<Player>().isAlive) {
             Destroy(gameObject);
         }
         
         #region KeyboardInput
         if (Input.GetKeyDown(KeyCode.S)) {
-            buttonAnim.SetTrigger("isPressed");
+            _buttonAnim.SetTrigger("isPressed");
         }
         
         if (Input.GetKeyUp(KeyCode.S)) {
-            var shld = Instantiate(shieldParticles, shieldParticles.transform.position, shieldParticles.transform.rotation);
-            shld.transform.SetParent(player.transform, false);
-            Destroy(gameObject);
+            Shield();
         }
         #endregion
         
@@ -37,20 +37,24 @@ public class BonusShield : MonoBehaviour {
 
             if (!hit.collider.Equals(null)) {
                 if (hit.collider.gameObject.CompareTag("BonusShield")) {
-                    buttonAnim.SetTrigger("isPressed");
+                    _buttonAnim.SetTrigger("isPressed");
 
                     if (Input.GetTouch(0).phase == TouchPhase.Ended || Input.GetTouch(0).phase == TouchPhase.Canceled) {
-                        var shld = Instantiate(shieldParticles, shieldParticles.transform.position,
-                            shieldParticles.transform.rotation);
-                        shld.transform.SetParent(player.transform, false);
-                        Destroy(gameObject);
+                        Shield();
                     }
                 }
             } else {
-                buttonAnim.ResetTrigger("isPressed");
+                _buttonAnim.ResetTrigger("isPressed");
             }
         }
         #endregion
-        
+    }
+
+    private void Shield() {
+        Instantiate(shieldSound, transform.position, Quaternion.identity);
+        var shld = Instantiate(shieldParticles, shieldParticles.transform.position,
+            shieldParticles.transform.rotation);
+        shld.transform.SetParent(_player.transform, false);
+        Destroy(gameObject);
     }
 }

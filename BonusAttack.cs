@@ -4,29 +4,28 @@ using UnityEngine;
 
 public class BonusAttack : MonoBehaviour {
     public GameObject attackParticles;
-    private Animator buttonAnim;
-    private GameObject player;
+    public GameObject attackSound;
+    
+    private Animator _buttonAnim;
+    private GameObject _player;
     
     private void Start() {
-        buttonAnim = gameObject.GetComponent<Animator>();
-        player = GameObject.FindGameObjectWithTag("Player");
+        _buttonAnim = gameObject.GetComponent<Animator>();
+        _player = GameObject.FindGameObjectWithTag("Player");
     }
 
     void Update() {
-        if (!player.GetComponent<Player>().isAlive) {
+        if (!_player.GetComponent<Player>().isAlive) {
             Destroy(gameObject);
         }
         
         #region KeyboardInput
         if (Input.GetKeyDown(KeyCode.A)) {
-            buttonAnim.SetTrigger("isPressed");
+            _buttonAnim.SetTrigger("isPressed");
         }
         
         if (Input.GetKeyUp(KeyCode.A)) {
-            player.GetComponent<Animator>().SetBool("isAttacking", true);
-            Instantiate(attackParticles, new Vector2(attackParticles.transform.position.x, player.transform.position.y), 
-                attackParticles.transform.rotation);
-            Destroy(gameObject);
+            Attack();
         }
         #endregion
         
@@ -39,18 +38,15 @@ public class BonusAttack : MonoBehaviour {
             if (!hit.collider.Equals(null)) {
 
                 if (hit.collider.gameObject.CompareTag("BonusAttack")) {
-                    buttonAnim.SetTrigger("isPressed");
+                    _buttonAnim.SetTrigger("isPressed");
 
                     if (Input.GetTouch(0).phase == TouchPhase.Ended || Input.GetTouch(0).phase == TouchPhase.Canceled) {
-                        player.GetComponent<Animator>().SetBool("isAttacking", true);
-                        Instantiate(attackParticles, new Vector2(attackParticles.transform.position.x, player.transform.position.y),
-                            attackParticles.transform.rotation);
-                        Destroy(gameObject);
+                        Attack();
                     }
                 }
             }
             else {
-                buttonAnim.ResetTrigger("isPressed");
+                _buttonAnim.ResetTrigger("isPressed");
             }
         }
         #endregion
@@ -60,5 +56,14 @@ public class BonusAttack : MonoBehaviour {
         if (other.gameObject.CompareTag("BonusAttack")) {
             Destroy(other.gameObject);
         }
+    }
+
+    private void Attack() {
+        _player.GetComponent<Animator>().SetBool("isAttacking", true);
+        Instantiate(attackSound, transform.position, Quaternion.identity);
+        var atck = Instantiate(attackParticles, new Vector2(attackParticles.transform.position.x, attackParticles.transform.position.y),
+            attackParticles.transform.rotation);
+        atck.transform.SetParent(_player.transform, false);
+        Destroy(gameObject);
     }
 }

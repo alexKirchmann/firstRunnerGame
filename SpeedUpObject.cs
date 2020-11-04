@@ -3,15 +3,15 @@
 public abstract class SpeedUpObject : MonoBehaviour {
     public float speed;
 
-    protected float currentScore;
-    protected float scoreNeedForSpeed = 10;
-    protected float speedInc;
-    protected Player player;
+    protected float CurrentScore;
+    protected const float ScoreNeedForSpeed = 10;
+    protected float SpeedInc;
+    protected Player Player;
 
     public void SpeedUp() {
-        if (currentScore >= 10) {
+        if (CurrentScore >= ScoreNeedForSpeed) {
             speed += 3;
-            speedInc++;
+            SpeedInc++;
         }
     }
 }

@@ -5,33 +5,34 @@ public class Spawner : MonoBehaviour {
     public GameObject[] obstaclePatterns;
     public GameObject[] bonusPatterns;
 
-    private float timeBetweenSpawn = 1;
-    private float timeBetweenSpawnBonus = 4;
+    private float _timeBetweenSpawn = 1;
+    private float _timeBetweenSpawnBonus = 4;
+    
     public float startTimeBetweenSpawn;
     public float startTimeBetweenSpawnBonus;
     public float decreaseTime;
     public float minTime = 0.65f;
 
     void Update() {
-        if (timeBetweenSpawn <= 0) {
-            if (timeBetweenSpawnBonus <= 0) {
+        if (_timeBetweenSpawn <= 0) {
+            if (_timeBetweenSpawnBonus <= 0) {
                 int rnd = Random.Range(0, bonusPatterns.Length);
                 Instantiate(bonusPatterns[rnd], transform.position, Quaternion.identity);
-                timeBetweenSpawnBonus = startTimeBetweenSpawnBonus;
-                timeBetweenSpawn = startTimeBetweenSpawn;
+                _timeBetweenSpawnBonus = startTimeBetweenSpawnBonus;
+                _timeBetweenSpawn = startTimeBetweenSpawn;
             }
             else {
                 int rnd = Random.Range(0, obstaclePatterns.Length);
                 Instantiate(obstaclePatterns[rnd], transform.position, Quaternion.identity);
-                timeBetweenSpawn = startTimeBetweenSpawn;
+                _timeBetweenSpawn = startTimeBetweenSpawn;
 
                 if (startTimeBetweenSpawn > minTime) {
                     startTimeBetweenSpawn -= decreaseTime;
                 }
             }
         } else {
-            timeBetweenSpawnBonus -= Time.deltaTime;
-            timeBetweenSpawn -= Time.deltaTime;
+            _timeBetweenSpawnBonus -= Time.deltaTime;
+            _timeBetweenSpawn -= Time.deltaTime;
         }
     }
 }

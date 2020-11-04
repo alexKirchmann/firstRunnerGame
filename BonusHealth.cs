@@ -6,20 +6,20 @@ public class BonusHealth : MonoBehaviour {
     public GameObject healthParticles;
     public GameObject healthUI;
     
-    private GameObject canvas;
-    private GameObject player;
+    private GameObject _canvas;
+    private GameObject _player;
     
     private void Start() {
-        canvas = GameObject.FindGameObjectWithTag("Canvas");
-        player = GameObject.FindGameObjectWithTag("Player");
+        _canvas = GameObject.FindGameObjectWithTag("Canvas");
+        _player = GameObject.FindGameObjectWithTag("Player");
 
-        player.GetComponent<Player>().health += 2;
+        _player.GetComponent<Player>().health += 2;
         
         var hUI = Instantiate(healthUI, healthUI.transform.position, Quaternion.identity);
-        hUI.transform.SetParent(canvas.transform, false);
+        hUI.transform.SetParent(_canvas.transform, false);
 
         var hlth = Instantiate(healthParticles, healthParticles.transform.position, healthParticles.transform.rotation);
-        hlth.transform.SetParent(player.transform, false);
+        hlth.transform.SetParent(_player.transform, false);
         Destroy(gameObject);
     }
 }

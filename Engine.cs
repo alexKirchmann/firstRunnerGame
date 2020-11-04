@@ -2,15 +2,14 @@
 using UnityEngine;
 
 public class Engine : SpeedUpObject {
-
     private void Start() {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 
     void Update() {
         transform.Translate(Vector2.left * (speed * Time.deltaTime));
         
-        currentScore = player.score - (scoreNeedForSpeed * speedInc);
+        CurrentScore = Player.score - (ScoreNeedForSpeed * SpeedInc);
         SpeedUp();
     }
 

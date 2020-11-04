@@ -2,16 +2,17 @@
 using UnityEngine.UI;
 
 public class ScoreCounter : MonoBehaviour {
-    private int score;
     public Text scoreUI;
+    
+    private int _score;
 
     private void Update() {
-        scoreUI.text = score.ToString();
+        scoreUI.text = _score.ToString();
     }
 
     private void OnTriggerExit2D (Collider2D other) {
         if (other.CompareTag("Obstacle")) {
-            score++;
+            _score++;
         }
     }
 } 

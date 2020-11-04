@@ -52,7 +52,6 @@
         <Compile Include="Engine.cs" />
         <Compile Include="MoonBase.cs" />
         <Compile Include="Planet.cs" />
-        <Compile Include="CameraShake.cs" />
         <Compile Include="Cleaner.cs" />
         <Compile Include="GameStart.cs" />
         <Compile Include="Obstacle.cs" />

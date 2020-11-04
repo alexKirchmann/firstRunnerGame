@@ -5,7 +5,7 @@ public class RepeatBackground : SpeedUpObject {
     public float endX;
 
     private void Start() {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 
     void Update() {
@@ -14,7 +14,7 @@ public class RepeatBackground : SpeedUpObject {
         if (transform.position.x <= endX)
             transform.position = new Vector3(startX, transform.position.y, transform.position.z);
         
-        currentScore = player.score - (scoreNeedForSpeed * speedInc);
+        CurrentScore = Player.score - (ScoreNeedForSpeed * SpeedInc);
         SpeedUp();
     }
 }
