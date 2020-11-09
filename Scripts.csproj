@@ -45,6 +45,7 @@
     <ItemGroup>
         <Compile Include="BonusAttack.cs" />
         <Compile Include="BonusHealth.cs" />
+        <Compile Include="PauseManager.cs" />
         <Compile Include="SceneGameManager.cs" />
         <Compile Include="ScoreChart.cs" />
         <Compile Include="SpeedUpObject.cs" />

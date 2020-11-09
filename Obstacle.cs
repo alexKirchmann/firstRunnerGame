@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Obstacle : SpeedUpObject {
     public short damage = 1;
@@ -11,12 +12,15 @@ public class Obstacle : SpeedUpObject {
     private void Start() {
         _cameraAnim = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Animator>();
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        
     }
 
     void Update() {
         transform.Translate(Vector2.left * (speed * Time.deltaTime));
+
+        if (Player)
+            CurrentScore = Player.score - ScoreNeedForSpeed * SpeedInc;
         
-        CurrentScore = Player.score - (ScoreNeedForSpeed * SpeedInc);
         SpeedUp();
     }
 

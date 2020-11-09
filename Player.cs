@@ -40,49 +40,64 @@ public class Player : MonoBehaviour {
         if (health <= 0) {
             gameOver.SetActive(true);
             isAlive = false;
-            Destroy(gameObject);
+            GetComponent<SpriteRenderer>().enabled = false;
+            GetComponent<CircleCollider2D>().enabled = false;
             Instantiate(deathSound, transform.position, Quaternion.identity);
             SaveScore();
+            GetComponent<Player>().enabled = false;
         }
         
         transform.position = Vector2.MoveTowards(transform.position, _targetPos, speed * Time.deltaTime);
 
         #region KeyboardInput
-        if (Input.GetKeyDown(KeyCode.UpArrow) && transform.position.y < maxY) {
-            Move(yIncrement);
+
+        if (Application.platform == RuntimePlatform.WindowsEditor ||
+            Application.platform == RuntimePlatform.WindowsPlayer) {
+            
+            if (Input.GetKeyDown(KeyCode.UpArrow) && transform.position.y < maxY) {
+                Move(yIncrement);
+            }
+            else if (Input.GetKeyDown(KeyCode.DownArrow) && transform.position.y > minY) {
+                Move(-yIncrement);
+            }
         }
-        else if (Input.GetKeyDown(KeyCode.DownArrow) && transform.position.y > minY) {
-            Move(-yIncrement);
-        }
+
         #endregion
 
         #region TouchscreenInput
-        if (Input.touchCount > 0) {
-            if (Input.GetTouch(0).phase == TouchPhase.Began) {
-                isDraging = true;
-                touchStart = Input.GetTouch(0).position;
+
+        if (Application.platform == RuntimePlatform.Android) {
+
+            if (Input.touchCount > 0) {
+                if (Input.GetTouch(0).phase == TouchPhase.Began) {
+                    isDraging = true;
+                    touchStart = Input.GetTouch(0).position;
+                }
+                else if (Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Ended) {
+                    isDraging = false;
+                    Reset();
+                }
             }
-            else if (Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Ended) {
-                isDraging = false;
+
+            swipeDelta = Vector2.zero;
+            if (isDraging) {
+                if (Input.touchCount > 0) {
+                    swipeDelta = Input.GetTouch(0).position - touchStart;
+                }
+            }
+
+            if (swipeDelta.magnitude > minSwipeLenght) {
+                if (swipeDelta.y > 0 && transform.position.y < maxY) {
+                    Move(yIncrement);
+                }
+                else if (swipeDelta.y < 0 && transform.position.y > minY) {
+                    Move(-yIncrement);
+                }
+
                 Reset();
             }
         }
-        
-        swipeDelta = Vector2.zero;
-        if (isDraging) {
-            if (Input.touchCount > 0) {
-                swipeDelta = Input.GetTouch(0).position - touchStart;
-            }
-        }
 
-        if (swipeDelta.magnitude > minSwipeLenght) {
-            if (swipeDelta.y > 0 && transform.position.y < maxY) {
-                Move(yIncrement);
-            } else if (swipeDelta.y < 0 && transform.position.y > minY) {
-                Move(-yIncrement);
-            }
-            Reset();
-        }
         #endregion
         
         if (GetComponent<Animator>().GetBool("isAttacking") && !_isResetting) {
@@ -130,7 +145,6 @@ public class Player : MonoBehaviour {
             for (int i = 10; i > bestPlace; i--) {
                 int prev = PlayerPrefs.GetInt(baseKey + (i-1));
                 PlayerPrefs.SetInt(baseKey + i, prev);
-                Debug.Log(baseKey + (i - 1));
             }
 
             PlayerPrefs.SetInt(baseKey + bestPlace, score);

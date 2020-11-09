@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RepeatBackground : SpeedUpObject {
     public float startX;
     public float endX;
 
     private void Start() {
-        Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        if (SceneManager.GetActiveScene().Equals(SceneManager.GetSceneByName("Game")))
+            Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 
     void Update() {
@@ -13,8 +15,9 @@ public class RepeatBackground : SpeedUpObject {
         
         if (transform.position.x <= endX)
             transform.position = new Vector3(startX, transform.position.y, transform.position.z);
-        
-        CurrentScore = Player.score - (ScoreNeedForSpeed * SpeedInc);
+
+        if (SceneManager.GetActiveScene().Equals(SceneManager.GetSceneByName("Game"))) 
+            CurrentScore = Player.score - (ScoreNeedForSpeed * SpeedInc);
         SpeedUp();
     }
 }
