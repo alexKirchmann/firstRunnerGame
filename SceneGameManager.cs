@@ -1,32 +1,29 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SceneGameManager : MonoBehaviour {
-    private Animator _fadeAnimator;
-    private string _scene;
+    public Animator fadeAnimator;
+    public string scene;
     public string sceneLeft;
     public string sceneRight;
 
     private void Start() {
-        _fadeAnimator = GetComponent<Animator>();
+        fadeAnimator = GetComponent<Animator>();
     }
 
     private void Update() {
-
-
         #region KeyboardInput
 
         if (Application.platform == RuntimePlatform.WindowsEditor ||
             Application.platform == RuntimePlatform.WindowsPlayer) {
 
             if (Input.GetKey(KeyCode.RightArrow) && !GameObject.FindGameObjectWithTag("ButtonRight").Equals(null)) {
-                _scene = sceneRight;
-                _fadeAnimator.SetTrigger("fadeOut");
+                scene = sceneRight;
+                fadeAnimator.SetTrigger("fadeOut");
             }
             else if (Input.GetKey(KeyCode.LeftArrow) && !GameObject.FindGameObjectWithTag("ButtonLeft").Equals(null)) {
-                _scene = sceneLeft;
-                _fadeAnimator.SetTrigger("fadeOut");
+                scene = sceneLeft;
+                fadeAnimator.SetTrigger("fadeOut");
             }
         }
 
@@ -45,15 +42,15 @@ public class SceneGameManager : MonoBehaviour {
                     if (hit.collider.gameObject.CompareTag("ButtonLeft") &&
                         (Input.GetTouch(0).phase == TouchPhase.Ended ||
                          Input.GetTouch(0).phase == TouchPhase.Canceled)) {
-                        _scene = sceneLeft;
-                        _fadeAnimator.SetTrigger("fadeOut");
+                        scene = sceneLeft;
+                        fadeAnimator.SetTrigger("fadeOut");
                     }
 
                     if (hit.collider.gameObject.CompareTag("ButtonRight") &&
                         (Input.GetTouch(0).phase == TouchPhase.Ended ||
                          Input.GetTouch(0).phase == TouchPhase.Canceled)) {
-                        _scene = sceneRight;
-                        _fadeAnimator.SetTrigger("fadeOut");
+                        scene = sceneRight;
+                        fadeAnimator.SetTrigger("fadeOut");
                     }
                 }
             }
@@ -62,7 +59,9 @@ public class SceneGameManager : MonoBehaviour {
         #endregion
     }
 
+    
+    
     public void OnFadeComplete() {
-        SceneManager.LoadScene(_scene);
+        SceneManager.LoadScene(scene);
     }
 }

@@ -1,6 +1,4 @@
-﻿
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 public class BonusHealth : MonoBehaviour {
     public GameObject healthParticles;

@@ -1,6 +1,4 @@
-﻿
-using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BonusShield : MonoBehaviour {
     public GameObject shieldParticles;

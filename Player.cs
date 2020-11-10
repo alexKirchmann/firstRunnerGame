@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,6 +22,7 @@ public class Player : MonoBehaviour {
     public short health = 3;
     public Text healthUI;
     public GameObject gameOver;
+    public GameObject pauseManager;
     public GameObject backgroundMusic;
     public GameObject deathSound;
     public GameObject movementSound;
@@ -38,6 +38,7 @@ public class Player : MonoBehaviour {
         healthUI.text = health.ToString();
 
         if (health <= 0) {
+            pauseManager.gameObject.SetActive(false);
             gameOver.SetActive(true);
             isAlive = false;
             GetComponent<SpriteRenderer>().enabled = false;
@@ -128,7 +129,7 @@ public class Player : MonoBehaviour {
         _isResetting = false;
     }
 
-    private void SaveScore() {
+    public void SaveScore() {
         int bestPlace = 0;
         string baseKey = "highscore_";
         

@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Obstacle : SpeedUpObject {
     public short damage = 1;

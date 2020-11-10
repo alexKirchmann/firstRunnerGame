@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
+using Image = UnityEngine.UI.Image;
 
 public class PauseManager : MonoBehaviour {
     private bool _isPaused;
     public GameObject player;
     public GameObject pauseScreen;
+    public GameObject sceneGameManager;
     public Sprite pauseButton;
     public Sprite playButton;
     
@@ -20,18 +18,10 @@ public class PauseManager : MonoBehaviour {
             if (Input.GetKeyUp(KeyCode.P)) {
                 switch (_isPaused) {
                     case false:
-                        pauseScreen.SetActive(true);
-                        player.GetComponent<Player>().enabled = false;
-                        Time.timeScale = 0;
-                        GetComponent<Image>().sprite = playButton;
-                        _isPaused = true;
+                        Pause(true);
                         break;
                     case true:
-                        pauseScreen.SetActive(false);
-                        player.GetComponent<Player>().enabled = true;
-                        Time.timeScale = 1;
-                        GetComponent<Image>().sprite = pauseButton;
-                        _isPaused = false;
+                        Pause(false);
                         break;
                 }
             }
@@ -54,30 +44,28 @@ public class PauseManager : MonoBehaviour {
                          Input.GetTouch(0).phase == TouchPhase.Canceled)) {
                         switch (_isPaused) {
                             case false:
-                                pauseScreen.SetActive(true);
-                                player.GetComponent<Player>().enabled = false;
-                                Time.timeScale = 0;
-                                GetComponent<Image>().sprite = playButton;
-                                _isPaused = true;
+                                Pause(true);
                                 break;
                             case true:
-                                pauseScreen.SetActive(false);
-                                player.GetComponent<Player>().enabled = true;
-                                Time.timeScale = 1;
-                                GetComponent<Image>().sprite = pauseButton;
-                                _isPaused = false;
+                                Pause(false);
                                 break;
                         }
                     }
                 }
             }
 
-            if (Input.GetKey(KeyCode.Escape)) {
-                AndroidJavaObject activity =
-                    new AndroidJavaClass("com.unity3d.player.UnityPlayer").GetStatic<AndroidJavaObject>(
-                        "currentActivity");
-                
-                activity.Call<bool>("moveTaskToBack", true);
+            if (Input.GetKeyUp(KeyCode.Escape)) {
+                switch (_isPaused) {
+                    case false:
+                        Pause(true);
+                        break;
+                    case true:
+                        player.GetComponent<Player>().SaveScore();
+                        sceneGameManager.GetComponent<SceneGameManager>().scene = "Main Menu";
+                        sceneGameManager.GetComponent<SceneGameManager>().fadeAnimator.SetTrigger("fadeOut");
+                        Time.timeScale = 1;
+                        break;
+                }
             }
         }
         
@@ -86,11 +74,23 @@ public class PauseManager : MonoBehaviour {
     
     public void OnApplicationFocus(bool hasFocus) {
         if (!hasFocus) {
-            pauseScreen.SetActive(true);
-            player.GetComponent<Player>().enabled = false;
-            Time.timeScale = 0; 
-            GetComponent<Image>().sprite = playButton;
-            _isPaused = true;
+            Pause(true);
         }
+    }
+
+    public void Pause(bool pauseActive) {
+        pauseScreen.SetActive(pauseActive);
+        player.GetComponent<Player>().enabled = !pauseActive;
+        switch (pauseActive) {
+            case true : 
+                Time.timeScale = 0; 
+                GetComponent<Image>().sprite = playButton; 
+                break;
+            case false : 
+                Time.timeScale = 1; 
+                GetComponent<Image>().sprite = pauseButton; 
+                break;
+        }
+        _isPaused = pauseActive;
     }
 }

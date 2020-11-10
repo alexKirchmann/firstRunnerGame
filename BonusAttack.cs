@@ -1,6 +1,4 @@
-﻿
-using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BonusAttack : MonoBehaviour {
     public GameObject attackParticles;
